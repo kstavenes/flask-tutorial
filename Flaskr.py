@@ -17,15 +17,15 @@ def connect_db():
     return sqlite3.connect(app.config['DATABASE'])
 
 
-def init_db():
-    with closing(connect_db()) as db:
-        with app.open_resource('schema.sql', mode='r') as f:
-            db.cursor().executescript(f.read())
-        db.commit()
-
-from contextlib import closing
-from Flaskr import init_db
-init_db()
+# def init_db():
+#     with closing(connect_db()) as db:
+#         with app.open_resource('schema.sql', mode='r') as f:
+#             db.cursor().executescript(f.read())
+#         db.commit()
+#
+# from contextlib import closing
+# from Flaskr import init_db
+# init_db()
 
 @app.before_request
 def before_request():
@@ -37,8 +37,6 @@ def teardown_request(exception):
     if db is not None:
         db.close()
 
-# I'm not sure where this portion goes for pulling up schema.sql
-# sqlite3 /tmp/flaskr.db < schema.sql
 
 @app.route('/')
 def show_entries():
